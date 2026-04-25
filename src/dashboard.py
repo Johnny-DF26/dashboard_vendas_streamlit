@@ -149,7 +149,7 @@ with col1:
 with col2:
     col2.metric('Quantidade de Vendas', formata_numero(qtd_vendas, casas_decimais=2))
     st.plotly_chart(grafico_linhas(receita_mensal, 'Receita Mensal por Categoria','mes','preco'), use_container_width=True)
-    st.plotly_chart(grafico_barras(receita_categoria, 'Receita por Categoria', 'categoria', 'preco', 'h'), use_container_width=True)
+    st.plotly_chart(grafico_barras(receita_categoria, 'Receita por Categoria','preco','categoria','h'), use_container_width=True)
 
 
 # Exibição dos dados em formato de tabela
