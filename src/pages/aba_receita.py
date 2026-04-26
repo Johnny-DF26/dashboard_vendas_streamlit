@@ -43,20 +43,24 @@ def grafico_mapa(df, titulo) -> px.scatter_mapbox:
         size='Receita', 
         color='Receita',
         size_max=20,
-        color_continuous_scale='Viridis_r', # Escala de cor mais legível
+        color_continuous_scale="Jet", # Escala de cor mais legível
         hover_name='Estado',
         hover_data={'Receita': ':,.2f', 'Latitude': False, 'Longitude': False}, # Formata valores e limpa o hover
         zoom=3, 
-        mapbox_style='carto-positron'
+        mapbox_style="open-street-map",
+
     )
     
     fig.update_layout(
-        title={'text': f"<b>{titulo}</b>", 'x': 0.5, 'xanchor': 'center'}, # Título centralizado e em negrito
-        margin={"r":0, "t":50, "l":0, "b":0},
-        paper_bgcolor="rgba(0,0,0,0)", # Fundo transparente para integrar com dashboards
+        title={'text': f"<b>{titulo}</b>", 'x': 0.5}, # Título centralizado e em negrito
+        font_color="black",
+        title_font_size=20,
+        margin={"r":0,"t":40,"l":0,"b":0},
+        plot_bgcolor="white",
+        paper_bgcolor="white", # Fundo transparente para integrar com dashboards
         mapbox_center={"lat": df['Latitude'].mean(), "lon": df['Longitude'].mean()} # Centraliza conforme os dados
     )
-    
+
     return fig
 
 def grafico_barras(df, titulo, x, y, orientacao='v') -> px.bar:
@@ -105,7 +109,7 @@ def grafico_linhas(df, titulo, x, y) -> px.line:
 
 
 
-def graficos_receita_coluna1() -> None:
+def graficos_receita_coluna1():
     """
     Exibe os principais KPIs e gráficos de receita na primeira coluna da aba Receita.
     Mostra a métrica de receita total, o mapa de calor por estado e o gráfico de barras dos estados com maior receita.
@@ -114,12 +118,12 @@ def graficos_receita_coluna1() -> None:
     st.metric('Receita', f'R$ {formata_numero(receita, casas_decimais=2)}')
 
     # Gráfico de mapa de calor por estado
-    fig_mapa = grafico_mapa(receita_estados, 'Receita Total por Estado')
-    st.plotly_chart(fig_mapa, use_container_width=True)
+    #fig_mapa = grafico_mapa(receita_estados, 'Receita Total por estados')
+    #st.plotly_chart(fig_mapa, use_container_width=True)
     
     # Gráfico de barras dos estados com maior receita
-    fig_barras = grafico_barras(receita_estados.head(), 'Receita de Vendas por Estado', 'Estado', 'Receita')
-    st.plotly_chart(fig_barras, use_container_width=True)
+    #fig_barras = grafico_barras(receita_estados.head(), 'Receita de Vendas por Estado', 'Estado', 'Receita')
+    #st.plotly_chart(fig_barras, use_container_width=True)
 
 
 def graficos_receita_coluna2() -> None:
