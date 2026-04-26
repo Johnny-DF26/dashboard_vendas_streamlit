@@ -1,11 +1,11 @@
 import streamlit as st
 import pandas as pd
-import requests
-from pages.graph import grafico_mapa, grafico_linhas, grafico_barras, formata_numero
 from pages.dataframe import dados
 import plotly.express as px
 
+
 vendedores = pd.DataFrame(dados.groupby('vendedor')['preco'].agg(['sum', 'count']))
+
 
 def grafico_vendedores(qtd_vendedores, tipo='sum'):
     vend = vendedores[tipo].sort_values(ascending=False).head(qtd_vendedores)
