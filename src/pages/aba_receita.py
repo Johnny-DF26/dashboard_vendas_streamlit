@@ -32,7 +32,7 @@ receita_categoria = receita_categoria.sort_values(by='preco', ascending=False)
 # ==================================================================================================
 # Gráficos
 # ==================================================================================================
-def grafico_mapa(df, titulo):
+def grafico_mapa(df, titulo) -> px.scatter_mapbox:
     """
     Cria um mapa de calor interativo com scatter_mapbox.
     """
@@ -59,7 +59,7 @@ def grafico_mapa(df, titulo):
     
     return fig
 
-def grafico_barras(df, titulo, x, y, orientacao='v'):
+def grafico_barras(df, titulo, x, y, orientacao='v') -> px.bar:
     fig = px.bar(df, x=x, y=y, color=x, title=titulo, 
                 text_auto=True, orientation= orientacao,
                 template='seaborn',
@@ -68,7 +68,7 @@ def grafico_barras(df, titulo, x, y, orientacao='v'):
 
     return fig
 
-def grafico_linhas(df, titulo, x, y):
+def grafico_linhas(df, titulo, x, y) -> px.line:
     # Garante que a coluna de data esteja no formato datetime e ordenada
     fig = px.line(
         df, 
@@ -104,22 +104,42 @@ def grafico_linhas(df, titulo, x, y):
     return fig
 
 
-def graficos_receita_coluna1():
-    # Apenas execute os comandos. Não precisa de return.
+
+def graficos_receita_coluna1() -> None:
+    """
+    Exibe os principais KPIs e gráficos de receita na primeira coluna da aba Receita.
+    Mostra a métrica de receita total, o mapa de calor por estado e o gráfico de barras dos estados com maior receita.
+    """
+    # Exibe o KPI de receita total
     st.metric('Receita', f'R$ {formata_numero(receita, casas_decimais=2)}')
 
+    # Gráfico de mapa de calor por estado
     fig_mapa = grafico_mapa(receita_estados, 'Receita Total por Estado')
     st.plotly_chart(fig_mapa, use_container_width=True)
     
+    # Gráfico de barras dos estados com maior receita
     fig_barras = grafico_barras(receita_estados.head(), 'Receita de Vendas por Estado', 'Estado', 'Receita')
     st.plotly_chart(fig_barras, use_container_width=True)
 
-    
-def graficos_receita_coluna2():
+
+def graficos_receita_coluna2() -> None:
+    """
+    Exibe os principais KPIs e gráficos de quantidade de vendas e categorias na segunda coluna da aba Receita.
+    Mostra a métrica de quantidade de vendas, o gráfico de linhas mensal e o gráfico de barras por categoria.
+    """
+    # Exibe o KPI de quantidade de vendas
     st.metric('Quantidade de Vendas', formata_numero(qtd_vendas, casas_decimais=2))
 
+    # Gráfico de linhas da receita mensal
     fig_linhas = grafico_linhas(receita_mensal, 'Receita Mensal por Categoria','mes','preco')
     st.plotly_chart(fig_linhas, use_container_width=True)
 
-    fig_barras = grafico_barras(receita_categoria.sort_values(by='preco', ascending=True), 'Receita por Categoria','preco','categoria','h')
+    # Gráfico de barras por categoria de produto
+    fig_barras = grafico_barras(
+        receita_categoria.sort_values(by='preco', ascending=True),
+        'Receita por Categoria',
+        'preco',
+        'categoria',
+        'h'
+    )
     st.plotly_chart(fig_barras, use_container_width=True)
