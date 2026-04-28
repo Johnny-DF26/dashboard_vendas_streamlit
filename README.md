@@ -1,7 +1,7 @@
 # 📊 DASHBOARD DE VENDAS
 
-![Streamlit]()
-![Python](https://img.shields.io/pypi/pyversions/:packageName)
+![Python](https://shields.io)
+![Streamlit](https://shields.io)
 ![Plotly](https://shields.io)
 
 ### 📝 Resumo
