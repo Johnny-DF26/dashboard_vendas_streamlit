@@ -39,6 +39,15 @@ python -m venv .venv
 pip install -r requirements.txt
 ```
 
+🔗 Demonstração Online
+--------
+O dashboard está publicado e pode ser acessado em tempo real através do link abaixo:
+
+[![Streamlit App](https://streamlit.io)](https://dashboardvendasapp-alura.streamlit.app/)
+
+> **Nota:** Caso o link não abra imediatamente, o Streamlit pode estar "acordando" o servidor. Aguarde alguns segundos.
+
+
 Execução
 --------
 Inicie o app:
