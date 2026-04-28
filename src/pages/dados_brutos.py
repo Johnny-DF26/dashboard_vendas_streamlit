@@ -3,6 +3,7 @@
 Este módulo carrega os dados a partir de uma API externa, expõe widgets de
 filtro no `sidebar` e apresenta a tabela filtrada e estatísticas resumidas.
 
+
 Principais responsabilidades:
     - `carregar_dados`: buscar e preparar o DataFrame com caching do Streamlit.
     - Widgets de filtro: seleção de produtos, preço, avaliação, data, estado,
