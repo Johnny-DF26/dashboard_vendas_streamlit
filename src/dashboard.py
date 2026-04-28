@@ -48,7 +48,7 @@ dados.columns = [
 # Converte a coluna de data para o formato datetime
 dados['data_compra'] = pd.to_datetime(dados['data_compra'], format='%d/%m/%Y')
 
-fitro_vendedores = st.sidebar.multiselect('vendedores', options=dados['vendedor'].unique())
+fitro_vendedores = st.sidebar.multiselect('Selecione os vendedores', options=dados['vendedor'].unique())
 if fitro_vendedores:
     dados = dados[dados['vendedor'].isin(fitro_vendedores)]
 

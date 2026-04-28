@@ -1,27 +1,52 @@
+"""Página que exibe os dados brutos e controles de filtragem.
+
+Este módulo carrega os dados a partir de uma API externa, expõe widgets de
+filtro no `sidebar` e apresenta a tabela filtrada e estatísticas resumidas.
+
+Principais responsabilidades:
+    - `carregar_dados`: buscar e preparar o DataFrame com caching do Streamlit.
+    - Widgets de filtro: seleção de produtos, preço, avaliação, data, estado,
+        vendedor e tipo de pagamento.
+    - Construção de uma query para filtrar o DataFrame e exibição das estatísticas.
+
+Dependências: streamlit, pandas, requests
+"""
+
 import streamlit as st
 import pandas as pd
 import requests
 
-
 # ==================================================================================================
 # Título do Dashboard
 # ==================================================================================================
+# Configurações da página Streamlit (layout e título)
 st.set_page_config(layout="wide", page_title='Dados Brutos')
-st.title("Dados Brutos".upper(), text_alignment='center')
+st.title("Dados Brutos 🎲".upper(), text_alignment='center')
 
 # ==================================================================================================
 # Carregamento dos dados da API
 # ==================================================================================================
-@st.cache_data  # Isso faz o Streamlit salvar o resultado na memória
-def carregar_dados():
+@st.cache_data  # Cachea o resultado para evitar múltiplas requisições à API
+def carregar_dados() -> pd.DataFrame:
+    """Faz requisição à API externa e retorna um DataFrame preparado.
+
+    A função realiza uma chamada HTTP GET para obter os dados brutos, renomeia
+    as colunas para nomes amigáveis e converte a coluna de datas para
+    `datetime`.
+
+    Returns:
+        pandas.DataFrame: DataFrame com colunas renomeadas e `data_compra` em
+        formato datetime.
+    """
     url = "https://labdados.com/produtos"
     response = requests.get(url)
     dados = pd.DataFrame.from_dict(response.json())
-    
+
     dados.columns = [
         'produto', 'categoria', 'preco', 'frete', 'data_compra', 'vendedor',
         'local_compra', 'avaliacao', 'tipo_pagamento', 'parcelas', 'lat', 'long'
     ]
+    # Normaliza formato de data para permitir manipulações temporais
     dados['data_compra'] = pd.to_datetime(dados['data_compra'], format='%d/%m/%Y')
     return dados
 
@@ -30,6 +55,7 @@ dados = carregar_dados()
 
 
 with st.expander('Colunas'):
+    # Permite ao usuário escolher quais colunas exibir na tabela
     colunas = st.multiselect(
         'Selecione as colunas', list(dados.columns), list(dados.columns)
     )
@@ -83,7 +109,8 @@ with st.sidebar.expander(':credit_card: Tipo de Pagamento'):
 # ==================================================================================================
 # Lógica de Filtragem
 # ==================================================================================================
-# Aplicando os filtros sequencialmente
+# Construção da query para filtrar o DataFrame usando pandas.DataFrame.query.
+# As variáveis com @ (ex: @produtos) fazem referência ao escopo local.
 query = (
     "produto in @produtos and "
     "@preco[0] <= preco <= @preco[1] and "
@@ -92,15 +119,14 @@ query = (
     "local_compra in @estados and "
     "vendedor in @vendedor and "
     "tipo_pagamento in @tipo_pagamento"
-    
 )
 
-# Criamos o dataframe filtrado
-# O try/except evita erro caso o usuário apague as datas no widget
+# Aplicamos a query ao DataFrame. Usamos try/except para capturar possíveis
+# erros de avaliação (por exemplo, se o usuário limpar os filtros de data).
 try:
     dados_filtrados = dados.query(query)
-    dados_filtrados = dados_filtrados[colunas] # Aplica seleção de colunas
-except:
+    dados_filtrados = dados_filtrados[colunas]  # Aplica seleção de colunas
+except Exception:
     st.error("Error ao filtrar os dados. Por favor, tente novamente.")
     dados_filtrados = dados[colunas]
 
@@ -110,29 +136,31 @@ except:
 st.subheader(':date: Tabela de Dados ')
 st.dataframe(dados_filtrados, use_container_width=True)
 
-# Mostra a quantidade de linhas filtradas
+# Exibe a quantidade de linhas resultantes após filtragem
 st.markdown(f"Mostrando :red[**{dados_filtrados.shape[0]}**]:red linhas.")
 
 
 # ==================================================================================================
 # Estatísticas
 # ==================================================================================================
+# Cálculo de estatísticas resumidas a partir do DataFrame filtrado
 produto_mais_vendido = dados_filtrados['produto'].mode().tolist()
 produto_mais_vendido = ", ".join(produto_mais_vendido)
-st.write(produto_mais_vendido)
 
 categoria_mais_vendida = dados_filtrados['categoria'].mode().tolist()
 categoria_mais_vendida = ", ".join(categoria_mais_vendida)
-st.write(categoria_mais_vendida)
 
+# Soma das vendas formatada em BRL (troca de separadores para padrão brasileiro)
 soma_vendas = dados_filtrados['preco'].sum()
 soma_vendas = f'{soma_vendas:,.2f}'.replace('.', 'X').replace(',', '.').replace('X', ',')
+
 avaliacao = dados_filtrados['avaliacao'].mean()
 avaliacao = f'{avaliacao:,.2f}'
+
 tipo_de_pagamento = dados_filtrados['tipo_pagamento'].mode().tolist()
 tipo_de_pagamento = ", ".join(tipo_de_pagamento).replace('_', ' ')
 
-st.subheader(':bar_chart::chart_with_upwards_trend: Estatísticas ')
+st.subheader(':bar_chart::chart_with_upwards_trend: Estatísticas')
 tabela_estatistica = pd.DataFrame({
     'Produto Mais Vendido': [produto_mais_vendido],
     'Categoria Mais Vendida': [categoria_mais_vendida],
