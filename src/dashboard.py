@@ -84,16 +84,22 @@ receita_estados.columns = ['Estado', 'Receita', 'Latitude', 'Longitude']
 # ==================================================================================================
 # Receita Mensal por categoria
 # ==================================================================================================
+# 1. Agrupamento mensal
 receita_mensal = dados.groupby(dados['data_compra'].dt.to_period('M')).agg({'preco': 'sum'}).reset_index()
+
+# 2. Extração do ano (funciona direto em Period)
 receita_mensal['ano'] = receita_mensal['data_compra'].dt.year
 
+# 3. Mapeamento dos meses (precisa de to_timestamp() para pegar o nome do mês)
 mapa_meses = {
     "January": "Jan", "February": "Fev", "March": "Mar", "April": "Abr",
     "May": "Mai", "June": "Jun", "July": "Jul", "August": "Ago",
     "September": "Set", "October": "Out", "November": "Nov", "December": "Dez"
 }
 
-receita_mensal['mes'] = receita_mensal['data_compra'].dt.month_name().map(mapa_meses)
+# Convertemos para timestamp apenas para extrair o nome e mapear
+receita_mensal['mes'] = receita_mensal['data_compra'].dt.to_timestamp().dt.month_name().map(mapa_meses)
+
 # ==================================================================================================
 # Receita por categoria de produto
 # ==================================================================================================
