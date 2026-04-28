@@ -86,8 +86,14 @@ receita_estados.columns = ['Estado', 'Receita', 'Latitude', 'Longitude']
 # ==================================================================================================
 receita_mensal = dados.groupby(dados['data_compra'].dt.to_period('M')).agg({'preco': 'sum'}).reset_index()
 receita_mensal['ano'] = receita_mensal['data_compra'].dt.year
-receita_mensal['mes'] = receita_mensal['data_compra'].dt.to_timestamp().dt.month_name(locale='pt_br').str[:3]  # Abreviação do mês
 
+mapa_meses = {
+    "January": "Jan", "February": "Fev", "March": "Mar", "April": "Abr",
+    "May": "Mai", "June": "Jun", "July": "Jul", "August": "Ago",
+    "September": "Set", "October": "Out", "November": "Nov", "December": "Dez"
+}
+
+receita_mensal['mes'] = receita_mensal['data_compra'].dt.month_name().map(mapa_meses)
 # ==================================================================================================
 # Receita por categoria de produto
 # ==================================================================================================
