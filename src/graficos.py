@@ -6,8 +6,16 @@ import plotly.express as px
 # Gráficos
 # ==================================================================================================
 def grafico_mapa(df, titulo, coluna):
-    """
-    Cria um mapa de calor interativo com scatter_mapbox.
+    """Cria um mapa de calor interativo usando scatter_mapbox.
+
+    Args:
+        df (pandas.DataFrame): DataFrame contendo colunas 'Latitude', 'Longitude' e a
+            coluna numérica indicada por ``coluna``.
+        titulo (str): Título do gráfico.
+        coluna (str): Nome da coluna do DataFrame usada para dimensionar e colorir os pontos.
+
+    Returns:
+        plotly.graph_objs._figure.Figure: Figura Plotly pronta para exibição ou plotagem.
     """
     fig = px.scatter_mapbox(
         df, 
@@ -43,6 +51,19 @@ def grafico_mapa(df, titulo, coluna):
     return fig
 
 def grafico_barras(df, titulo, x, y, orientacao='v'):
+    """Gera um gráfico de barras estilizado com Plotly Express.
+
+    Args:
+        df (pandas.DataFrame): Fonte de dados para o gráfico.
+        titulo (str): Título do gráfico.
+        x (str): Nome da coluna a usar no eixo x (também usada para colorir).
+        y (str): Nome da coluna a usar no eixo y.
+        orientacao (str, optional): 'v' para vertical (padrão) ou 'h' para horizontal.
+
+    Returns:
+        plotly.graph_objs._figure.Figure: Figura Plotly do gráfico de barras.
+    """
+
     fig = px.bar(df, x=x, y=y, color=x, title=titulo,
                 text_auto=True, orientation= orientacao,
                 template='seaborn',
@@ -60,6 +81,22 @@ def grafico_barras(df, titulo, x, y, orientacao='v'):
     return fig
 
 def grafico_linhas(df, titulo, x, y):
+    """Cria um gráfico de linhas com seleção de intervalo e estilos úteis.
+
+    Esta função assume que o DataFrame pode ter uma coluna de agregação por `ano`
+    (usada como cor). Adiciona marcadores, controle de intervalo (rangeslider)
+    e botões de seleção de período.
+
+    Args:
+        df (pandas.DataFrame): Dados com colunas referenciadas por ``x`` e ``y``.
+        titulo (str): Título do gráfico.
+        x (str): Coluna do eixo x (geralmente uma data ou período).
+        y (str): Coluna do eixo y (métrica a ser exibida).
+
+    Returns:
+        plotly.graph_objs._figure.Figure: Figura Plotly do gráfico de linhas.
+    """
+
     # Garante que a coluna de data esteja no formato datetime e ordenada
     fig = px.line(
         df, 
@@ -108,6 +145,9 @@ def grafico_vendedores(dataset, qtd_vendedores, titulo, tipo='sum') -> None:
         qtd_vendedores (int): Quantidade de vendedores a exibir no ranking.
         tipo (str): 'sum' para receita, 'count' para quantidade de vendas.
     """
+    # Nota: a função recebe um dataset já pré-aggregado (index = vendedor,
+    # colunas com valores agregados como 'sum' ou 'count') e plota os top N.
+    # O gráfico é renderizado diretamente em Streamlit com `st.plotly_chart`.
     # Seleciona os top vendedores conforme o critério
     fig_vendedores = px.bar(
         dataset,

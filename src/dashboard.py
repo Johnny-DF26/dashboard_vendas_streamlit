@@ -8,18 +8,13 @@ Este módulo inicializa o dashboard principal, organiza as abas e integra os pri
 import streamlit as st
 from graficos import grafico_barras, grafico_linhas, grafico_mapa, grafico_vendedores
 from formatacao import formata_numero
-
-import seaborn as sns
-from plotly import express as px
-import matplotlib.pyplot as plt
 import pandas as pd
 import requests
-
 
 # ==================================================================================================
 # Título do Dashboard
 # ==================================================================================================
-st.set_page_config(layout="wide", page_title='Dashboard de Vendas')
+st.set_page_config(layout="wide", page_title='Dashboard Vendas')
 st.title("DASHBOARD DE VENDAS :shopping_cart:", text_alignment='center')
 
 
@@ -169,7 +164,7 @@ with aba2:
         receita = dados['preco'].sum()
         st.metric('Receita', f'R$ {formata_numero(receita, casas_decimais=2)}')
 
-        mapa_estados_mais_vendidos = grafico_mapa(qtd_vendas_estado, 'Estados Mais Vendidos', 'Quantidade')
+        mapa_estados_mais_vendidos = grafico_mapa(qtd_vendas_estado, 'Quantidade de Vendas por Estado', 'Quantidade')
         st.plotly_chart(mapa_estados_mais_vendidos, width='stretch')
 
         fig_categoria_mais_vendidas = grafico_barras(categoria_mais_vendida.sort_values(by='Quantidade', ascending=True), 
