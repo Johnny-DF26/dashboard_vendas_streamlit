@@ -1,8 +1,12 @@
 # 📊 DASHBOARD DE VENDAS
 
-![Python](https://shields.io)
-![Streamlit](https://shields.io)
-![Plotly](https://shields.io)
+<p align="center">
+  <img src="https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54" alt="Python">
+  <img src="https://img.shields.io/badge/Streamlit-%23FE4B4B.svg?style=for-the-badge&logo=streamlit&logoColor=white" alt="Streamlit">
+  <img src="https://img.shields.io/badge/Pandas-150458.svg?style=for-the-badge&logo=pandas&logoColor=white" alt="Pandas">
+  <img src="https://img.shields.io/badge/plotly-3F4F75.svg?style=for-the-badge&logo=plotly&logoColor=white" alt="Plotly Dash">
+</p>
+
 
 ### 📝 Resumo
 Dashboard interativo desenvolvido em **Streamlit** para análise detalhada de vendas por produto, categoria, vendedor e região. O projeto foca em fornecer insights rápidos através de KPIs, gráficos interativos e mapeamento geográfico.
