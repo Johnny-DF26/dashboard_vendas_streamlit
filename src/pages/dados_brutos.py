@@ -160,7 +160,7 @@ avaliacao = f'{avaliacao:,.2f}'
 tipo_de_pagamento = dados_filtrados['tipo_pagamento'].mode().tolist()
 tipo_de_pagamento = ", ".join(tipo_de_pagamento).replace('_', ' ')
 
-st.subheader(':bar_chart::chart_with_upwards_trend: Estatísticas')
+st.subheader(':bar_chart: Estatísticas')
 tabela_estatistica = pd.DataFrame({
     'Produto Mais Vendido': [produto_mais_vendido],
     'Categoria Mais Vendida': [categoria_mais_vendida],

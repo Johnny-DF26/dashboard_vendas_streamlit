@@ -21,37 +21,54 @@ st.title("DASHBOARD DE VENDAS :shopping_cart:", text_alignment='center')
 # ==================================================================================================
 # Carregamento dos dados da API
 # ==================================================================================================
-url = "https://labdados.com/produtos"
+import streamlit as st
+import pandas as pd
+import requests
 
-regioes = ['Brasil', 'Norte', 'Nordeste', 'Centro-Oeste', 'Sudeste', 'Sul']
+@st.cache_data
+def fetch_api_data(regiao: str, ano: str) -> pd.DataFrame:
+    """Busca dados brutos da API com base nos filtros de tempo e local."""
+    url = "https://labdados.com/produtos"
+    query_string = {'regiao': regiao.lower(), 'ano': ano}
+    
+    try:
+        response = requests.get(url, params=query_string)
+        response.raise_for_status()
+        dados = pd.DataFrame.from_dict(response.json())
+        
+        # Renomeação e tipagem
+        colunas = [
+            'produto', 'categoria', 'preco', 'frete', 'data_compra', 
+            'vendedor', 'local_compra', 'avaliacao', 'tipo_pagamento', 
+            'parcelas', 'lat', 'long'
+        ]
+        dados.columns = colunas
+        dados['data_compra'] = pd.to_datetime(dados['data_compra'], format='%d/%m/%Y')
+        return dados
+    
+    except Exception as e:
+        st.error(f"Erro ao carregar dados: {e}")
+        return pd.DataFrame()
 
+# --- INTERFACE (UI) ---
 st.sidebar.title("Filtros :arrow_down_small:")
-regiao = st.sidebar.selectbox("Selecione a região", regioes)
-if regiao == 'Brasil':
-    regiao = ''
 
-todos_anos = st.sidebar.checkbox("Dados de todo o periodo :date:", value=True)
-if todos_anos:
-    ano = ''
-else:
-    ano = st.sidebar.slider("Ano", 2020, 2023)
+# 1. Filtros que disparam nova requisição à API
+regioes = ['Brasil', 'Norte', 'Nordeste', 'Centro-Oeste', 'Sudeste', 'Sul']
+regiao_sel = st.sidebar.selectbox("Selecione a região", regioes)
+regiao_param = "" if regiao_sel == "Brasil" else regiao_sel
 
-query_string = {'regiao': regiao.lower(), 'ano': ano}
+todos_anos = st.sidebar.checkbox("Dados de todo o período :date:", value=True)
+ano_param = "" if todos_anos else st.sidebar.slider("Ano", 2020, 2023)
 
-response = requests.get(url, params=query_string)
+# Chamada da função cacheada
+dados = fetch_api_data(regiao_param, ano_param)
 
-dados = pd.DataFrame.from_dict(response.json())
-dados.columns = [
-    'produto', 'categoria', 'preco', 'frete', 'data_compra', 'vendedor',
-    'local_compra', 'avaliacao', 'tipo_pagamento', 'parcelas', 'lat', 'long'
-]
-# Converte a coluna de data para o formato datetime
-dados['data_compra'] = pd.to_datetime(dados['data_compra'], format='%d/%m/%Y')
-
-fitro_vendedores = st.sidebar.multiselect('Selecione os vendedores', options=dados['vendedor'].unique())
-if fitro_vendedores:
-    dados = dados[dados['vendedor'].isin(fitro_vendedores)]
-
+# 2. Filtros de DataFrame (Memória)
+if not dados.empty:
+    vendedores = st.sidebar.multiselect('Selecione os vendedores', options=dados['vendedor'].unique())
+    if vendedores:
+        dados = dados[dados['vendedor'].isin(vendedores)]
 
 # ==================================================================================================
 # Tabela de receita por estado

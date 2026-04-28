@@ -91,10 +91,10 @@ def grafico_barras(df, titulo, x, y, orientacao='v'):
         >>> st.plotly_chart(fig)
     """
 
-    fig = px.bar(df, x=x, y=y, color=x, title=titulo,
+    fig = px.bar(df, x=x, y=y, title=titulo,
                 text_auto=True, orientation= orientacao,
                 template='seaborn',
-                color_discrete_sequence=px.colors.qualitative.Pastel)
+                color_discrete_sequence=px.colors.qualitative.Set3)
     fig.update_layout(showlegend=False,
                       title={
                         'text': titulo,

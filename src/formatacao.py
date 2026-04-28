@@ -4,8 +4,6 @@ Módulo utilitário para formatação de números e exibição de KPIs no Dashbo
 Inclui funções para formatar valores e mostrar métricas no Streamlit.
 """
 
-import streamlit as st
-
 def formata_numero(numero, casas_decimais=2) -> str:
     """
     Formata um número para exibição compacta (Mil, Mi).
