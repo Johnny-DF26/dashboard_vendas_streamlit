@@ -1,97 +1,78 @@
-# DASHBOARD DE VENDAS
+# 📊 DASHBOARD DE VENDAS
 
-Resumo
--------
-Dashboard interativo em Streamlit para análise de vendas por produto, categoria, vendedor e região. Inclui KPIs, gráficos interativos (Plotly), mapas e uma página para inspeção de dados brutos.
+![Streamlit](https://shields.io)
+![Python](https://shields.io)
+![Plotly](https://shields.io)
 
-Recursos principais
--------------------
-- KPIs financeiros e contagem de vendas
-- Visualizações: séries temporais, barras, mapas e rankings
-- Filtros dinâmicos (região, ano, vendedor, data, preço, avaliação)
-- Paginação/visualização dos dados brutos com filtros avançados
-- Caching de dados com `st.cache_data` para reduzir latência
+### 📝 Resumo
+Dashboard interativo desenvolvido em **Streamlit** para análise detalhada de vendas por produto, categoria, vendedor e região. O projeto foca em fornecer insights rápidos através de KPIs, gráficos interativos e mapeamento geográfico.
 
-Requisitos
----------
-- Python 3.8+
-- Dependências listadas em `requirements.txt`
+### ✨ Recursos principais
+* ✅ **KPIs Financeiros:** Visualização imediata de faturamento e contagem de vendas.
+* 📈 **Visualizações Ricas:** Séries temporais, gráficos de barras, mapas de calor e rankings.
+* 🎛️ **Filtros Dinâmicos:** Refine os dados por região, ano, vendedor, data, preço e avaliação.
+* 🔍 **Inspeção de Dados:** Página dedicada para visualização de dados brutos com filtros avançados.
+* ⚡ **Alta Performance:** Uso de `st.cache_data` para carregamento otimizado e baixa latência.
 
-Instalação
----------
-1. Clone o repositório:
+### 🛠️ Requisitos
+* Python 3.8+
+* Dependências listadas em `requirements.txt`
 
-```bash
-git clone https://github.com/Johnny-DF26/Streamlit.git
-cd Streamlit
-```
+### 🚀 Instalação
+1. **Clone o repositório:**
+   ```bash
+   git clone https://github.com
+   cd Streamlit
+   ```
+2. **Crie e ative um ambiente virtual (Windows):**
+   ```bash
+   python -m venv .venv
+   .venv\Scripts\activate
+   ```
+3. **Instale as dependências:**
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-2. Crie e ative um ambiente virtual (exemplo Windows):
+### 🔗 Demonstração Online
+O dashboard está publicado e pode ser acessado em tempo real:
+👉 [**Acesse o Streamlit App aqui**](https://github.com)
 
-```powershell
-python -m venv .venv
-.venv\Scripts\activate
-```
+> *Nota: Caso o link não abra imediatamente, o Streamlit pode estar "acordando" o servidor. Aguarde alguns segundos.*
 
-3. Instale dependências:
-
-```bash
-pip install -r requirements.txt
-```
-
-🔗 Demonstração Online
---------
-O dashboard está publicado e pode ser acessado em tempo real através do link abaixo:
-
-[![Streamlit App](https://streamlit.io)](https://dashboardvendasapp-alura.streamlit.app/)
-
-> **Nota:** Caso o link não abra imediatamente, o Streamlit pode estar "acordando" o servidor. Aguarde alguns segundos.
-
-
-Execução
---------
-Inicie o app:
-
+### 💻 Execução
+Inicie o app localmente:
 ```bash
 streamlit run src/dashboard.py
 ```
+Abra a URL exibida (padrão: `http://localhost:8501`).
 
-Abra a URL exibida pelo Streamlit (por padrão http://localhost:8501).
+### 📂 Estrutura do Repositório
+* `README.md` — Documentação do projeto.
+* `requirements.txt` — Dependências Python.
+* `src/dashboard.py` — Ponto de entrada e composição do app.
+* `src/formatacao.py` — Utilitários para formatação e cálculos de KPIs.
+* `src/graficos.py` — Lógica de geração dos gráficos (Plotly).
+* `src/pages/dados_brutos.py` — Interface de filtros e tabelas brutas.
 
-Estrutura do repositório
-------------------------
+### 💾 Fonte de Dados
+Os dados são consumidos via API do endpoint público [://labdados.com](https://://labdados.com). O tratamento (limpeza, renomeação e conversão) ocorre durante o carregamento no diretório `src/`.
 
-- `README.md` — Documentação do projeto
-- `requirements.txt` — Dependências Python
-- `src/dashboard.py` — Entrada do app e composição principal
-- `src/formatacao.py` — Funções utilitárias para formatação e KPIs
-- `src/graficos.py` — Funções que geram gráficos (Plotly)
-- `src/pages/dados_brutos.py` — Página para visualização dos dados brutos e filtros
+### 🤝 Como contribuir
+1. Abra uma **Issue** relatando o problema ou sugestão.
+2. Crie uma branch: `git checkout -b feat/minha-melhoria`.
+3. Faça o commit: `git commit -m 'Adiciona nova funcionalidade'`.
+4. Abra um **Pull Request**.
 
-Fonte de dados
---------------
-Os dados são carregados a partir do endpoint público `https://labdados.com/produtos`. A preparação do DataFrame (renomeação de colunas, conversão de datas) é feita nas funções de carregamento dentro de `src/`.
+### 💡 Sugestões de melhorias
+- [ ] Implementar CI (GitHub Actions) para automação.
+- [ ] Adicionar testes unitários para as funções de formatação.
+- [ ] Incluir badges de status de build e cobertura no topo.
 
-Como contribuir
----------------
-1. Abra uma issue descrevendo a proposta ou bug.
-2. Crie uma branch com prefixo `feat/` ou `fix/`.
-3. Faça commits pequenos e claros.
-4. Abra um Pull Request descrevendo as mudanças e como testar.
+### ✅ Checklist antes de PR
+- [ ] Código formatado (ex: Black).
+- [ ] `requirements.txt` atualizado.
+- [ ] Validações manuais realizadas.
 
-Sugestões de melhorias
-----------------------
-- Adicionar CI (GitHub Actions) para lint e testes
-- Incluir `CONTRIBUTING.md` e `CODE_OF_CONDUCT.md`
-- Publicar badges (build, coverage) no topo do README
-
-Checklist antes de PR
----------------------
-- Código formatado (ex.: `black`)
-- Dependências atualizadas em `requirements.txt`
-- Testes ou validações manuais descritas no PR
-
-Licença
--------
+### ⚖️ Licença
 Uso livre para fins educacionais e pessoais.
-
