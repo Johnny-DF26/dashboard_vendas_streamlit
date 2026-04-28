@@ -68,15 +68,5 @@ Os dados são consumidos via API do endpoint público [://labdados.com](https://
 3. Faça o commit: `git commit -m 'Adiciona nova funcionalidade'`.
 4. Abra um **Pull Request**.
 
-### 💡 Sugestões de melhorias
-- [ ] Implementar CI (GitHub Actions) para automação.
-- [ ] Adicionar testes unitários para as funções de formatação.
-- [ ] Incluir badges de status de build e cobertura no topo.
-
-### ✅ Checklist antes de PR
-- [ ] Código formatado (ex: Black).
-- [ ] `requirements.txt` atualizado.
-- [ ] Validações manuais realizadas.
-
 ### ⚖️ Licença
 Uso livre para fins educacionais e pessoais.
