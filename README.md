@@ -40,7 +40,7 @@ Dashboard interativo desenvolvido em **Streamlit** para análise detalhada de ve
 
 ### 🔗 Demonstração Online
 O dashboard está publicado e pode ser acessado em tempo real:
-👉 [**Acesse o Streamlit App aqui**](https://github.com)
+👉 [**Acesse o Streamlit App aqui**]([https://github.com](https://dashboardvendasapp-alura.streamlit.app/))
 
 > *Nota: Caso o link não abra imediatamente, o Streamlit pode estar "acordando" o servidor. Aguarde alguns segundos.*
 
